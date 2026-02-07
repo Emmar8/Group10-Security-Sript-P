@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Password Strength Assessment</h1>
+  <p class="muted">Type a password to see live requirements + strength score.</p>
+
+  <div class="panel">
+    <label for="password">Enter Password</label>
+
+    <!-- No need to submit for live checking -->
+    <input
+      id="password"
+      name="password"
+      type="password"
+      placeholder="Type password..."
+      autocomplete="new-password"
+      spellcheck="false"
+    />
+
+    <!-- Live strength summary -->
+    <div class="live-row">
+      <div class="live-rating">
+        <span class="muted">Live Rating:</span>
+        <span id="liveRating" class="live-value">—</span>
+      </div>
+
+      <div class="live-meter" aria-label="Strength meter">
+        <div id="meterFill" class="live-meter-fill"></div>
+      </div>
+    </div>
+
+    <!-- Live checklist -->
+    <div class="checklist">
+      <div class="check-item" id="reqLen">
+        <span class="check-icon">⬜</span>
+        <span>At least 12 characters</span>
+      </div>
+      <div class="check-item" id="reqUpper">
+        <span class="check-icon">⬜</span>
+        <span>Has an uppercase letter (A–Z)</span>
+      </div>
+      <div class="check-item" id="reqLower">
+        <span class="check-icon">⬜</span>
+        <span>Has a lowercase letter (a–z)</span>
+      </div>
+      <div class="check-item" id="reqDigit">
+        <span class="check-icon">⬜</span>
+        <span>Has a number (0–9)</span>
+      </div>
+      <div class="check-item" id="reqSpecial">
+        <span class="check-icon">⬜</span>
+        <span>Has a special character</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Optional: keep server-side result display if you still POST -->
+  {% if result %}
+    <div class="panel">
+      <h3>Server Result</h3>
+      <p><strong>Strength:</strong> {{ result.rating }}</p>
+      {% if result.tips %}
+        <ul>
+          {% for tip in result.tips %}
+            <li>{{ tip }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <script>
+    // Same scoring model as your Python (0..5 => Very Weak..Very Strong)
+    const labels = ["Very Weak", "Weak", "Fair", "Good", "Strong", "Very Strong"];
+
+    const elPw = document.getElementById("password");
+    const elLive = document.getElementById("liveRating");
+    const elFill = document.getElementById("meterFill");
+
+    const reqs = {
+      reqLen: (pw) => pw.length >= 12,
+      reqUpper: (pw) => /[A-Z]/.test(pw),
+      reqLower: (pw) => /[a-z]/.test(pw),
+      reqDigit: (pw) => /\d/.test(pw),
+      reqSpecial: (pw) => /[^A-Za-z0-9]/.test(pw),
+    };
+
+    function setItem(id, ok) {
+      const row = document.getElementById(id);
+      const icon = row.querySelector(".check-icon");
+      icon.textContent = ok ? "✅" : "⬜";
+      row.classList.toggle("ok", ok);
+    }
+
+    function updateLive() {
+      const pw = elPw.value || "";
+
+      // update checklist
+      const states = Object.entries(reqs).map(([id, fn]) => {
+        const ok = fn(pw);
+        setItem(id, ok);
+        return ok;
+      });
+
+      // score = how many requirements met
+      const score = states.filter(Boolean).length;
+
+      // label + meter
+      if (!pw.trim()) {
+        elLive.textContent = "—";
+        elFill.style.width = "0%";
+        return;
+      }
+
+      elLive.textContent = labels[score];
+      elFill.style.width = (score / 5 * 100) + "%";
+    }
+
+    elPw.addEventListener("input", updateLive);
+    updateLive();
+  </script>
+{% endblock %}

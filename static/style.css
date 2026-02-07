@@ -1,0 +1,171 @@
+:root{
+  --bg:#050a07;
+  --panel:#07130d;
+  --text:#b6ffcf;
+  --muted:#6adf95;
+  --accent:#00ff66;
+  --border:#0f3d25;
+}
+
+*{ box-sizing:border-box; }
+body{
+  margin:0;
+  font-family: system-ui, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 18px;
+  border-bottom:1px solid var(--border);
+  background: rgba(7,19,13,0.9);
+}
+
+.brand{ font-weight:700; color: var(--accent); }
+.nav a{
+  color: var(--text);
+  text-decoration:none;
+  margin-left:12px;
+}
+.nav a:hover{ color: var(--accent); }
+
+.container{
+  max-width: 950px;
+  margin: 18px auto;
+  padding: 0 14px;
+}
+
+.panel{
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  margin: 14px 0;
+}
+
+label{ display:block; margin-top:10px; margin-bottom:6px; color: var(--muted); }
+input, textarea{
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background: #03110a;
+  color: var(--text);
+  outline:none;
+}
+input:focus, textarea:focus{
+  border-color: var(--accent);
+}
+
+button{
+  margin-top:12px;
+  padding:10px 14px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:#062016;
+  color: var(--text);
+  cursor:pointer;
+}
+button:hover{ border-color: var(--accent); color: var(--accent); }
+
+.cards{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap:12px;
+  margin-top: 14px;
+}
+.card{
+  display:block;
+  padding:14px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  text-decoration:none;
+}
+.card:hover{ border-color: var(--accent); }
+
+code{
+  color: var(--accent);
+  word-break: break-all;
+}
+
+.muted{ color: var(--muted); }
+.footer{
+  padding: 18px;
+  text-align:center;
+  color: var(--muted);
+  border-top:1px solid var(--border);
+  margin-top: 30px;
+}
+
+/* ----- Strength Live UI (responsive scaling) ----- */
+.live-row{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+@media (min-width: 720px){
+  .live-row{
+    grid-template-columns: 220px 1fr;
+    align-items: center;
+  }
+}
+
+.live-rating{
+  font-size: clamp(14px, 1.5vw, 16px);
+}
+
+.live-value{
+  margin-left: 8px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.live-meter{
+  height: clamp(10px, 1.2vw, 14px);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #03110a;
+  overflow: hidden;
+}
+
+.live-meter-fill{
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  transition: width 120ms ease;
+}
+
+.checklist{
+  margin-top: 12px;
+  display: grid;
+  gap: 8px;
+  font-size: clamp(14px, 1.5vw, 16px);
+}
+
+.check-item{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(3,17,10,0.55);
+}
+
+.check-item.ok{
+  border-color: var(--accent);
+}
+
+.check-icon{
+  width: 1.5em;
+  display: inline-flex;
+  justify-content: center;
+}
+

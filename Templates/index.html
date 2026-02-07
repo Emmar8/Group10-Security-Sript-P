@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Multi-Function Web Security Tool</h1>
+  <p>This web tool demonstrates Week 1–3 concepts:</p>
+
+  <ul>
+    <li>Password Strength Assessment</li>
+    <li>Secure Random Password Generation + SHA-256 Hashing + Save to file</li>
+    <li>Web Form Input Validation + Sanitization</li>
+  </ul>
+
+  <div class="cards">
+    <a class="card" href="{{ url_for('strength') }}">
+      <h3>Password Strength</h3>
+      <p>Check password strength and get improvement tips.</p>
+    </a>
+
+    <a class="card" href="{{ url_for('generator') }}">
+      <h3>Generate + Hash + Save</h3>
+      <p>Create a strong password, hash it with SHA-256, and save to passwords.txt.</p>
+    </a>
+
+    <a class="card" href="{{ url_for('form_validator') }}">
+      <h3>Web Form Validator</h3>
+      <p>Validate + sanitize Full Name, Email, Username, and Message.</p>
+    </a>
+  </div>
+{% endblock %}
