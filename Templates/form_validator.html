@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Web Form Input Validator + Sanitizer</h1>
+
+  <form method="post" class="panel">
+    <label>Full Name</label>
+    <input type="text" name="full_name" required placeholder="Enter your full name"
+           value="{{ form.full_name | default('') }}"/>
+
+    <label>Email Address</label>
+    <input type="text" name="email" required placeholder="example@example.com"
+           value="{{ form.email | default('') }}"/>
+
+    <label>Username</label>
+    <input type="text" name="username" required placeholder="Input username"
+           value="{{ form.username | default('') }}"/>
+
+    <label>Message / Comment</label>
+    <textarea name="message" required rows="5" placeholder="Write your message...">{{ form.message | default('') }}</textarea>
+
+    <button type="submit">Validate</button>
+  </form>
+
+  {% if output %}
+    <div class="panel">
+      <h3>Output</h3>
+
+      <h4>Validation Results:</h4>
+      <ul>
+        {% for item in output.validation %}
+          <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+
+      <h4>Sanitized Output:</h4>
+      <p><strong>Full Name:</strong> {{ output.sanitized.full_name }}</p>
+      <p><strong>Email:</strong> {{ output.sanitized.email }}</p>
+      <p><strong>Username:</strong> {{ output.sanitized.username }}</p>
+      <p><strong>Message:</strong> {{ output.sanitized.message }}</p>
+
+      {% if output.summary and output.summary|length > 0 %}
+        <h4>Sanitization Summary:</h4>
+        <ul>
+          {% for line in output.summary %}
+            <li>{{ line }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      <p><strong>Process Complete.</strong></p>
+    </div>
+  {% endif %}
+{% endblock %}

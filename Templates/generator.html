@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Generate Password + SHA-256 Hash</h1>
+
+  <form method="post" class="panel">
+    <button type="submit">Generate</button>
+  </form>
+
+  {% if result %}
+    <div class="panel">
+      <h3>Generated Output</h3>
+      <p><strong>Timestamp:</strong> {{ result.timestamp }}</p>
+      <p><strong>Password:</strong> <code>{{ result.password }}</code></p>
+      <p><strong>SHA-256 Hash:</strong> <code>{{ result.hash }}</code></p>
+      <p class="muted">Saved to passwords.txt (append mode).</p>
+    </div>
+  {% endif %}
+{% endblock %}
